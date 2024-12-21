@@ -232,13 +232,18 @@ const LeaderDashboard = () => {
             onClick={() => handleViewStudentAnswers(student)}
           >
             <h3>{student.name} (Subject: {student.title}) (Rank: {student.rank})</h3>
-            <p>Score: {student.score}</p>
-            <p>Pre-Test Score: {student.preTestScore}</p>
-            <p>Post-Test Score: {student.postTestScore}</p>
-            <p>Incorrect Questions: {student.incorrectQuestions.join(', ')}</p>
+            <div className="student-info">
+            <div>
+              <p><strong>Score:</strong> 80</p>
+              <p><strong>Pre-Test Score:</strong> 70</p>
+              <p><strong>Post-Test Score:</strong> 80</p>
+              <p><strong>Incorrect Questions:</strong> Q2, Q3</p>
+            </div>
+                    
             <button onClick={() => { setShowErrorForm(true); setIncorrectAnswer(student.incorrectQuestions[0]); }}>
               View Incorrect Question
             </button>
+          </div>
           </div>
         ))}
       </div>
