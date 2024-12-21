@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./LeaderDashboard.css";
+import Select from "react-select";
 
 // Mock data for students
 const mockStudents = [
@@ -30,30 +31,42 @@ const mockStudents = [
       { question: "What is 2+2?", answer: "5", correctAnswer: "4" },
       { question: "What is the capital of France?", answer: "Berlin", correctAnswer: "Paris" }
     ]
+  },
+  {
+    name: 'Student 2',
+    employmentId:"1591",
+    title: "CICD2",
+    rank: 2,
+    score: 75,
+    incorrectQuestions: ['Q3', 'Q4'],
+    preTestScore: 65,
+    postTestScore: 75,
+    answers: [
+      { question: "What is 2+2?", answer: "5", correctAnswer: "4" },
+      { question: "What is the capital of France?", answer: "Berlin", correctAnswer: "Paris" }
+    ]
   }
 ];
 
 const LeaderDashboard = () => {
-  const [showModal, setShowModal] = useState(false); // 控制新考試表單是否顯示
+  const [showExamModal, setExamShowModal] = useState(false); // 控制新考試表單是否顯示
   const [examTitle, setExamTitle] = useState("");
   const [examType, setExamType] = useState("pre-test");
   const [questions, setQuestions] = useState([
     { question: "", type: "single", options: ["Option 1", "Option 2", "Option 3", "Option 4"], correctAnswer: [] }
   ]);
-  const [isValid, setIsValid] = useState(true);
+  // 用來檢查表單是否有效，防止錯誤提交。
+  const [isValid, setIsValid] = useState(false);
   const [validationMessage, setValidationMessage] = useState("");
   const [studentNameFilter, setStudentNameFilter] = useState("");
   const [selectedSubject, setSelectedSubject] = useState("all");
+  const [selectedName, setSelectedName] = useState("all");
   const [duplicateOptions, setDuplicateOptions] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null); // 新增狀態來保存選擇的學生
   const [showErrorForm, setShowErrorForm] = useState(false);
   const [incorrectAnswer, setIncorrectAnswer] = useState("");
 
-  const handleRadioChange = (index, e) => {
-    const updatedQuestions = [...questions];
-    updatedQuestions[index].correctAnswer = [e.target.value];
-    setQuestions(updatedQuestions);
-  };
+
 
   const handleCheckboxChange = (index, e) => {
     const { value, checked } = e.target;
@@ -127,7 +140,7 @@ const LeaderDashboard = () => {
       setIsValid(true);
       setValidationMessage("");
       const newExam = { title: examTitle, type: examType, questions };
-      setShowModal(false);
+      setExamShowModal(false);
       alert("考試已成功建立！");
     }
   };
@@ -141,55 +154,77 @@ const LeaderDashboard = () => {
   };
 
   const filteredStudents = mockStudents.filter(student =>
-    student.name.toLowerCase().includes(studentNameFilter.toLowerCase())
+    (selectedSubject === "all" || student.title === selectedSubject) &&
+    (selectedName === "all" || `${student.employmentId} ${student.name}` === selectedName)
+    // student.name.toLowerCase().includes(studentNameFilter.toLowerCase())
   );
 
   const subjects = Array.from(new Set(mockStudents.map(student => student.title)));
-  const names = Array.from(new Set(mockStudents.map(student => student.name)));
+  const subjectOptions = [{ value: "all", label: "All Subjects" }, ...subjects.map(subject => ({
+    value: subject,
+    label: subject
+  }))];
+
+
+  const nameOptions = [
+    { value: "all", label: "All Employees" },
+    ...mockStudents.map(student => ({
+      value: `${student.employmentId} ${student.name}`,
+      label: `${student.employmentId} ${student.name}`
+    }))
+  ];
 
   const getScoreColor = (score) => {
     if (score >= 85) return "green";
     if (score >= 70) return "yellow";
     return "red";
   };
+  
 
   return (
     <div className="leader-dashboard">
       <h1>Leader Dashboard</h1>
 
       {/* Create New Exam Button */}
-      {!showModal && (
-        <button onClick={() => setShowModal(true)}>Create New Exam</button>
+      {!showExamModal && (
+        <button onClick={() => setExamShowModal(true)}>Create New Exam</button>
       )}
 
       {/* Filter by Subject */}
       <div className="filters">
         <div className="filter-group">
           <h3>Filter by Subject</h3>
-          <select onChange={(e) => setSelectedSubject(e.target.value)} value={selectedSubject}>
-            <option value="all">All Subjects</option>
-            {subjects.map((subject, index) => (
-              <option key={index} value={subject}>{subject}</option>
-            ))}
-          </select>
+          <Select
+          options={subjectOptions}
+          value={subjectOptions.find(option => option.value === selectedSubject)} // 控制選中的值
+          onChange={(selectedOption) =>
+            setSelectedSubject(selectedOption ? selectedOption.value : "all") // 選擇時處理清除的情況
+          }
+          placeholder="Select or type to search..." // 提示文字
+          isClearable // 允許清除選擇
+        />
+          
         </div>
         
         {/* Filter by Student Name */}
-        <div className="filter-group">
+        <div className="filter-group-nameAndId">
           <h3>Filter by Student Name</h3>
-          <input
-            type="text"
-            placeholder="Enter student name"
-            value={studentNameFilter}
-            onChange={(e) => setStudentNameFilter(e.target.value)}
-          />
+          <Select
+          options={nameOptions}
+          value={nameOptions.find(option => option.value === selectedName)} // 控制選中的值
+          onChange={(selectedOption) =>
+            setSelectedName(selectedOption ? selectedOption.value : "all") // 選擇時處理清除的情況
+          }          
+          placeholder="Select or type to search..." // 提示文字
+          isClearable // 允許清除選擇
+        />
         </div>
       </div>
 
       {/* Display Students and Their Scores */}
       <div className="student-list">
         <h2>Student Scores</h2>
-        {!showModal && filteredStudents.map((student, index) => (
+        {!showExamModal && filteredStudents.map((student, index)  => (
           <div
             key={index}
             className="student-card"
@@ -233,7 +268,7 @@ const LeaderDashboard = () => {
       )}
 
       {/* New Exam Form */}
-      {showModal && (
+      {showExamModal && (
         <div className="exam-form-modal">
           <form onSubmit={handleSubmit} className="exam-form">
             <h3>Create New Exam</h3>
@@ -297,12 +332,13 @@ const LeaderDashboard = () => {
 
             {!isValid && <p className="error-message">{validationMessage}</p>}
             <button type="submit" disabled={!questions.some(q => q.correctAnswer.length > 0)}>Submit Exam</button>
-            <button className="close-btn" onClick={() => setShowModal(false)}>Cancel</button>
+            <button className="close-btn" onClick={() => setExamShowModal(false)}>Cancel</button>
           </form>
         </div>
       )}
 
     </div>
+    
   );
 };
 
