@@ -58,9 +58,8 @@ const LeaderDashboard = () => {
   // 用來檢查表單是否有效，防止錯誤提交。
   const [isValid, setIsValid] = useState(false);
   const [validationMessage, setValidationMessage] = useState("");
-  const [studentNameFilter, setStudentNameFilter] = useState("");
-  const [selectedSubject, setSelectedSubject] = useState("all");
-  const [selectedName, setSelectedName] = useState("all");
+  const [selectedSubjectFilter, setSelectedSubjectFilter] = useState("all");
+  const [studentNameFilter, setStudentNameFilter] = useState("all");
   const [duplicateOptions, setDuplicateOptions] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null); // 新增狀態來保存選擇的學生
   const [showErrorForm, setShowErrorForm] = useState(false);
@@ -78,6 +77,7 @@ const LeaderDashboard = () => {
     } else {
       if (checked) {
         updatedQuestions[index].correctAnswer.push(value);
+        //選項被取消勾選
       } else {
         updatedQuestions[index].correctAnswer = updatedQuestions[index].correctAnswer.filter(
           (option) => option !== value
@@ -154,8 +154,8 @@ const LeaderDashboard = () => {
   };
 
   const filteredStudents = mockStudents.filter(student =>
-    (selectedSubject === "all" || student.title === selectedSubject) &&
-    (selectedName === "all" || `${student.employmentId} ${student.name}` === selectedName)
+    (selectedSubjectFilter === "all" || student.title === selectedSubjectFilter) &&
+    (studentNameFilter === "all" || `${student.employmentId} ${student.name}` === studentNameFilter)
     // student.name.toLowerCase().includes(studentNameFilter.toLowerCase())
   );
 
@@ -196,9 +196,9 @@ const LeaderDashboard = () => {
           <h3>Filter by Subject</h3>
           <Select
           options={subjectOptions}
-          value={subjectOptions.find(option => option.value === selectedSubject)} // 控制選中的值
+          value={subjectOptions.find(option => option.value === selectedSubjectFilter)} // 控制選中的值
           onChange={(selectedOption) =>
-            setSelectedSubject(selectedOption ? selectedOption.value : "all") // 選擇時處理清除的情況
+            setSelectedSubjectFilter(selectedOption ? selectedOption.value : "all") // 選擇時處理清除的情況
           }
           placeholder="Select or type to search..." // 提示文字
           isClearable // 允許清除選擇
@@ -211,9 +211,9 @@ const LeaderDashboard = () => {
           <h3>Filter by Student Name</h3>
           <Select
           options={nameOptions}
-          value={nameOptions.find(option => option.value === selectedName)} // 控制選中的值
+          value={nameOptions.find(option => option.value === studentNameFilter)} // 控制選中的值
           onChange={(selectedOption) =>
-            setSelectedName(selectedOption ? selectedOption.value : "all") // 選擇時處理清除的情況
+            setStudentNameFilter(selectedOption ? selectedOption.value : "all") // 選擇時處理清除的情況
           }          
           placeholder="Select or type to search..." // 提示文字
           isClearable // 允許清除選擇

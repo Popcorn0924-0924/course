@@ -87,4 +87,40 @@
   .answer-feedback.incorrect {
     color: red;
   }
+  .subject-card {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    border-left: 5px solid #ccc;
   
+    transition: transform 0.3s;
+  }
+  
+  .subject-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .subject-card h3 {
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .subject-card p {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .subject-card button {
+    background-color: #ff7a00;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .subject-card button:hover {
+    background-color: #e66e00;
+  }
