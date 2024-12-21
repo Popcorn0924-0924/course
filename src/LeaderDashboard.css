@@ -1,0 +1,278 @@
+/* General Dashboard Styling */
+.leader-dashboard {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+}
+
+.filter-group input,
+.filter-group select {
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Student List Styling */
+.student-list {
+  margin-top: 30px;
+}
+
+.student-card {
+  background-color: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border-left: 5px solid #ccc;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.student-card:hover {
+  transform: scale(1.05);
+}
+
+.student-card h3 {
+  font-size: 18px;
+  color: #333;
+}
+
+.student-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+.student-card button {
+  background-color: #ff7a00;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.student-card button:hover {
+  background-color: #e66e00;
+}
+
+/* Score Color Styling */
+.green {
+  color: green;
+}
+
+.yellow {
+  color: yellow;
+}
+
+.red {
+  color: red;
+}
+
+/* Modal and Form Styling */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;  /* Horizontally center the modal */
+  align-items: center;      /* Vertically center the modal */
+  z-index: 1000;            /* Ensure it is above other content */
+}
+.exam-form-modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+}
+.exam-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 700px;  /* Maximum width of the form */
+  width: 100%;       /* Form will occupy 100% of the available width up to the max-width */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  height: auto;      /* Let the height adjust based on the content */
+  max-height: 90%;   /* Max height to prevent modal overflow */
+
+  margin-right: 20px;  /* Allows scrolling if content overflows */
+  transition: all 0.3s ease-in-out; /* Smooth scaling transition */
+}
+@media screen and (max-width: 768px) {
+  .exam-form {
+    max-width: 95%;
+    padding-right: 40px;
+      /* On smaller screens, the form width will be more flexible */
+  }
+}
+.exam-form h3, .error-form h3 {
+  text-align: center;
+  color: #333;
+}
+
+.exam-form input,
+.exam-form select,
+.error-form input,
+.error-form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.exam-form button,
+.error-form button {
+  background-color: #4CAF50;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.exam-form button:hover,
+.error-form button:hover {
+  background-color: #45a049;
+}
+
+.close-btn {
+  background-color: #f44336;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.close-btn:hover {
+  background-color: #e53935;
+}
+
+/* Option Group Styling */
+.input-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.input-group input {
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.input-group label {
+  flex-shrink: 0;
+}
+
+.input-group input[type="checkbox"] {
+  transform: scale(1.2);
+}
+
+/* Button and Exam Creation */
+.create-exam-btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.create-exam-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Styling for Correct and Incorrect Answer Highlighting */
+.input-group input[type="checkbox"]:checked {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+/* Custom Color for Correct/Incorrect Answer Option */
+.input-group input[type="checkbox"]:checked + label {
+  color: green;
+}
+
+.input-group input[type="checkbox"]:not(:checked) + label {
+  color: #333;
+}
+
+/* Create Exam Modal Adjustments */
+.exam-form input[type="text"],
+.exam-form input[type="number"],
+.exam-form select {
+  margin-bottom: 10px;
+}
+
+.exam-form button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 12px;
+}
+
+.exam-form button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+/* Add styling for "Set as Answer" Label */
+.set-answer {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+}
+
+/* Style for checked answers */
+.selected {
+  color: green;
+}
+
+/* Correct answer highlighting */
+.correct {
+  background-color: #28a745;
+  color: white;
+  font-weight: bold;
+}
+
+.option-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.option-container label {
+  color: #333;
+  font-size: 16px;
+}
+
+.option-container input[type="checkbox"]:checked + label {
+  color: green;
+}
