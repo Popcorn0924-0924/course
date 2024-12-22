@@ -7,7 +7,7 @@ const mockStudents = [
   {
     name: 'Student 1',
     employmentId:"159144",
-    title: "CICD",
+    courseName: "CICD",
     rank: 1,
     score: 80,
     incorrectQuestions: ['Q2', 'Q3'],
@@ -21,7 +21,7 @@ const mockStudents = [
   {
     name: 'Student 2',
     employmentId:"159145",
-    title: "CICD",
+    courseName: "CICD",
     rank: 2,
     score: 75,
     incorrectQuestions: ['Q1', 'Q4'],
@@ -35,7 +35,7 @@ const mockStudents = [
   {
     name: 'Student 2',
     employmentId:"1591",
-    title: "CICD2",
+    courseName: "CICD2",
     rank: 2,
     score: 75,
     incorrectQuestions: ['Q3', 'Q4'],
@@ -50,7 +50,7 @@ const mockStudents = [
 
 const LeaderDashboard = () => {
   const [showExamModal, setExamShowModal] = useState(false); // 控制新考試表單是否顯示
-  const [examTitle, setExamTitle] = useState("");
+  const [examcourseName, setExamcourseName] = useState("");
   const [examType, setExamType] = useState("pre-test");
   const [questions, setQuestions] = useState([
     { question: "", type: "single", options: ["Option 1", "Option 2", "Option 3", "Option 4"], correctAnswer: [] }
@@ -139,7 +139,7 @@ const LeaderDashboard = () => {
     } else {
       setIsValid(true);
       setValidationMessage("");
-      const newExam = { title: examTitle, type: examType, questions };
+      const newExam = { courseName: examcourseName, type: examType, questions };
       setExamShowModal(false);
       alert("考試已成功建立！");
     }
@@ -154,12 +154,12 @@ const LeaderDashboard = () => {
   };
 
   const filteredStudents = mockStudents.filter(student =>
-    (selectedSubjectFilter === "all" || student.title === selectedSubjectFilter) &&
+    (selectedSubjectFilter === "all" || student.courseName === selectedSubjectFilter) &&
     (studentNameFilter === "all" || `${student.employmentId} ${student.name}` === studentNameFilter)
     // student.name.toLowerCase().includes(studentNameFilter.toLowerCase())
   );
 
-  const subjects = Array.from(new Set(mockStudents.map(student => student.title)));
+  const subjects = Array.from(new Set(mockStudents.map(student => student.courseName)));
   const subjectOptions = [{ value: "all", label: "All Subjects" }, ...subjects.map(subject => ({
     value: subject,
     label: subject
@@ -231,7 +231,7 @@ const LeaderDashboard = () => {
             style={{ borderColor: getScoreColor(student.score) }}
             onClick={() => handleViewStudentAnswers(student)}
           >
-            <h3>{student.name} (Subject: {student.title}) (Rank: {student.rank})</h3>
+            <h3>{student.name} (Subject: {student.courseName}) (Rank: {student.rank})</h3>
             <div className="student-info">
             <div>
               <p><strong>Score:</strong> 80</p>
@@ -277,11 +277,11 @@ const LeaderDashboard = () => {
         <div className="exam-form-modal">
           <form onSubmit={handleSubmit} className="exam-form">
             <h3>Create New Exam</h3>
-            <label>Exam Title:</label>
+            <label>Exam courseName:</label>
             <input
               type="text"
-              value={examTitle}
-              onChange={(e) => setExamTitle(e.target.value)}
+              value={examcourseName}
+              onChange={(e) => setExamcourseName(e.target.value)}
               required
             />
             <label>Exam Type:</label>

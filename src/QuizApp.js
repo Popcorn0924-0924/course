@@ -61,7 +61,7 @@ const QuizApp = () => {
 
   return (
     <div className="quiz-container">
-      <h1 className="quiz-title">Quiz App</h1>
+      <h1 className="quiz-courseName">Quiz App</h1>
       {!submitted ? (
         <>
           {/* 題目列表 */}
@@ -99,7 +99,7 @@ const QuizApp = () => {
       ) : (
         <>
           {/* 結果頁面 */}
-          <h2 className="quiz-title">Results</h2>
+          <h2 className="quiz-courseName">Results</h2>
           <p className="quiz-score">
             Your score: {getScore()} / {shuffledQuestions.length}
           </p>

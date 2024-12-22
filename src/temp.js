@@ -6,7 +6,7 @@ const mockStudents = [
   {
     name: 'Student 1',
     
-    title: "CICD",
+    courseName: "CICD",
     rank: 1,
     score: 80,
     incorrectQuestions: ['Q2', 'Q3'],
@@ -19,7 +19,7 @@ const mockStudents = [
   },
   {
     name: 'Student 2',
-    title: "CICD",
+    courseName: "CICD",
     rank: 2,
     score: 75,
     incorrectQuestions: ['Q1', 'Q4'],
@@ -35,7 +35,7 @@ const mockStudents = [
 
 const LeaderDashboard = () => {
   const [showModal, setShowModal] = useState(false);
-  const [examTitle, setExamTitle] = useState("");
+  const [examcourseName, setExamcourseName] = useState("");
   const [examType, setExamType] = useState("pre-test");
   const [questions, setQuestions] = useState([
     { question: "", type: "single", options: ["", "", "", ""], correctAnswer: "" }
@@ -105,7 +105,7 @@ const LeaderDashboard = () => {
       setIsValid(false);
     } else {
       setIsValid(true);
-      const newExam = { title: examTitle, type: examType, questions };
+      const newExam = { courseName: examcourseName, type: examType, questions };
       setShowModal(false);
       alert("Exam created successfully!");
     }
@@ -118,12 +118,12 @@ const LeaderDashboard = () => {
 
   // Filter students based on selected subject and student name
   const filteredStudents = mockStudents.filter(student =>
-    (selectedSubject === "all" || student.title === selectedSubject) &&
+    (selectedSubject === "all" || student.courseName === selectedSubject) &&
     student.name.toLowerCase().includes(studentNameFilter.toLowerCase())
   );
 
   // Get the list of available subjects
-  const subjects = Array.from(new Set(mockStudents.map(student => student.title)));
+  const subjects = Array.from(new Set(mockStudents.map(student => student.courseName)));
   const names = Array.from(new Set(mockStudents.map(student => student.name)));
 
   // Dynamic color based on score
@@ -182,7 +182,7 @@ const LeaderDashboard = () => {
             style={{ borderColor: getScoreColor(student.score) }}
             onClick={() => handleViewStudentAnswers(student)}
           >
-            <h3>{student.name} (Subject: {student.title}) (Rank: {student.rank})</h3>
+            <h3>{student.name} (Subject: {student.courseName}) (Rank: {student.rank})</h3>
             <p>Score: {student.score}</p>
             <p>Pre-Test Score: {student.preTestScore}</p>
             <p>Post-Test Score: {student.postTestScore}</p>
@@ -223,11 +223,11 @@ const LeaderDashboard = () => {
         <div className="modal-overlay">
           <form onSubmit={handleSubmit} className="exam-form">
             <h3>Create New Exam</h3>
-            <label>Exam Title:</label>
+            <label>Exam courseName:</label>
             <input
               type="text"
-              value={examTitle}
-              onChange={(e) => setExamTitle(e.target.value)}
+              value={examcourseName}
+              onChange={(e) => setExamcourseName(e.target.value)}
               required
             />
             <label>Exam Type:</label>

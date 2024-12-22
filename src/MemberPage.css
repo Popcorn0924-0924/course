@@ -87,6 +87,11 @@
   .answer-feedback.incorrect {
     color: red;
   }
+  .subject-list {
+    list-style: none; /* 移除點點 */
+    padding: 0;       /* 移除預設縮排 */
+    margin: 0;        /* 移除預設邊距 */
+}
   .subject-card {
     background-color: #fff;
     padding: 15px;
@@ -112,15 +117,65 @@
   }
   
   .subject-card button {
-    background-color: #ff7a00;
+    background-color: #4caf50; /* 綠色 */
     color: #fff;
     border: none;
     padding: 8px 16px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.subject-card button:hover {
+    background-color: #45a049; /* 深綠色 */
+}
+
+/* 完成按鈕樣式 (Completed) */
+.subject-card button.completed {
+    background-color: #8b8988; /* 灰色 */
+    color: #fff;
+    cursor: not-allowed; /* 禁止點擊 */
+}
+  .subject-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
   }
   
-  .subject-card button:hover {
-    background-color: #e66e00;
+  .exam-card {
+    display: flex;
+    flex-wrap: wrap;/* 確保按鈕換行 */
+    gap: 15px; /* 增加按鈕間的間距 */
   }
+  
+  .exam-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    flex: 1 1 45%;
+    max-width: 45%;
+  }
+  
+
+
+  
+  .select-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .select-btn.btn-active {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .select-btn.btn-disabled {
+    background-color: #ccc;
+    color: #777;
+    cursor: not-allowed;
+  }
+  
