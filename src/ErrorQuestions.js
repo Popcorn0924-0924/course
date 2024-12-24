@@ -1,4 +1,5 @@
 import React from "react";
+import ScoreCard from "./ScoreCard";
 import "./ErrorQuestions.css";
 
 const mockData = [
@@ -44,10 +45,7 @@ const ErrorQuestions = () => {
   return (
     <div className="error-questions-container">
       {/* 顯示成績卡 */}
-      <div className="score-card">
-        <h2>Your Score</h2>
-        <p>{`You got ${score} out of ${totalQuestions} correct.`}</p>
-      </div>
+      <ScoreCard score={score} totalQuestions={totalQuestions} />
 
       {/* 顯示錯誤問題 */}
       <div className="questions-card">
@@ -57,10 +55,24 @@ const ErrorQuestions = () => {
               <h3 className="question-title">
                 {`Q${index + 1}: ${questionData.question}`}
                 {/* 顯示對錯的標籤 */}
-                <span className={`status-icon ${questionData.userAnswers.length === questionData.correctAnswers.length && questionData.userAnswers.every((ans) => questionData.correctAnswers.includes(ans)) ? 'correct' : 'incorrect'}`}>
-                  {questionData.userAnswers.length === questionData.correctAnswers.length && questionData.userAnswers.every((ans) => questionData.correctAnswers.includes(ans)) ? '✔ CORRECT' : '✘ WRONG'}
+                <span
+                  className={`status-icon ${
+                    questionData.userAnswers.length === questionData.correctAnswers.length &&
+                    questionData.userAnswers.every((ans) =>
+                      questionData.correctAnswers.includes(ans)
+                    )
+                      ? "correct"
+                      : "incorrect"
+                  }`}
+                >
+                  {questionData.userAnswers.length === questionData.correctAnswers.length &&
+                  questionData.userAnswers.every((ans) => questionData.correctAnswers.includes(ans))
+                    ? "✔ CORRECT"
+                    : "✘ WRONG"}
                 </span>
               </h3>
+
+              {/* 顯示選項 */}
               <ul className="options-list">
                 {questionData.options.map((option, idx) => {
                   const isUserAnswer = questionData.userAnswers.includes(option);
@@ -78,12 +90,8 @@ const ErrorQuestions = () => {
                       <span className={`circle ${isUserAnswer ? "circle-gray" : ""}`} />
                       <div className="option-container">
                         {/* 打勾或打叉 */}
-                        {isCorrect && (
-                          <span className="icon correct-icon">✓</span> // 顯示正確答案打勾
-                        )}
-                        {isIncorrect && (
-                          <span className="icon incorrect-icon">✗</span> // 顯示錯誤答案打叉
-                        )}
+                        {isCorrect && <span className="icon correct-icon">✓</span>}
+                        {isIncorrect && <span className="icon incorrect-icon">✗</span>}
 
                         {/* Option text */}
                         <span className="option-text">{option}</span>
@@ -92,6 +100,8 @@ const ErrorQuestions = () => {
                   );
                 })}
               </ul>
+
+              {/* 顯示正確答案 */}
               <div className="correct-answer-card">
                 <h4>Correct Answer</h4>
                 <ul>
