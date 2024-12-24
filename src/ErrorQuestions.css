@@ -5,14 +5,12 @@
   margin-bottom: 20px;
   border-radius: 15px;
   text-align: center;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+ 
   border: 1px solid #ddd;
   transition: box-shadow 0.3s ease;
 }
 
-.score-card:hover {
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* 鼠標懸停時增加陰影 */
-}
+
 
 .score-card h2 {
   font-size: 1.5rem;
@@ -121,6 +119,7 @@
 /* 背景顏色設定 */
 .incorrect {
   background-color: #ffebee;  /* 淺紅色背景 */
+  color: #555;
   border-radius: 10px;
   margin-bottom: 10px;
   
@@ -128,6 +127,7 @@
 
 .correct {
   background-color: #e8f5e9; /* 淺綠色背景 */
+  color: #555;
   border-radius: 10px;
   margin-bottom: 10px;
   
