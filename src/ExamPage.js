@@ -12,7 +12,7 @@ const mockQuestions = [
 const ExamPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [answers, setAnswers] = useState({});
+  const [answers, setAnswers] = useState(JSON.parse(localStorage.getItem('examAnswers')) || {});
   const [timeLeft, setTimeLeft] = useState(5); // 3 minutes in seconds
   const [submitted, setSubmitted] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
@@ -35,38 +35,36 @@ const ExamPage = () => {
     return () => clearInterval(timer); // Cleanup the timer
   }, []);
 
-  // Warn user when they try to leave the page without completing the exam
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      if (!submitted && Object.keys(answers).length < mockQuestions.length) {
-        const message =
-          "You haven't completed the exam. If you exit, you will lose your exam eligibility. Please contact your class leader.";
-
-        // For modern browsers
-        event.returnValue = message;
-        return message; // Required for some older browsers (like IE)
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [answers, submitted]);
-
   // Handle selecting an option for a question
   const handleOptionClick = (questionId, option) => {
-    setAnswers({ ...answers, [questionId]: option });
+    const updatedAnswers = { ...answers, [questionId]: option };
+    setAnswers(updatedAnswers);
+    localStorage.setItem('examAnswers', JSON.stringify(updatedAnswers)); // Save to localStorage
   };
 
   // Handle form submission (either manually or auto-submit when time is up)
   const handleSubmit = () => {
     if (Object.keys(answers).length === mockQuestions.length) {
       setSubmitted(true);
+
+      // Get correct answers and calculate score
+      let score = 0;
+      let incorrectQuestions = [];
+
+      mockQuestions.forEach((question) => {
+        if (answers[question.id] === question.answer) {
+          score++;
+        } else {
+          incorrectQuestions.push(question);
+        }
+      });
+
+      // Save score and incorrect answers to localStorage
+      localStorage.setItem('examScore', score);
+      localStorage.setItem('incorrectQuestions', JSON.stringify(incorrectQuestions));
+
       setShowSuccessModal(true); // Show success modal after submission
     } else {
-
       alert("Please complete all the questions before submitting!"); // Show alert if not all questions are answered
     }
   };
@@ -74,23 +72,6 @@ const ExamPage = () => {
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
     navigate("/member"); // Redirect to MemberPage after closing success modal
-  };
-
-  // Show a time-out modal when time runs out
-  useEffect(() => {
-    if (timeLeft === 0 && !submitted) {
-      setShowTimeOutModal(true); // Show the "Time's up" modal
-    }
-  }, [timeLeft, submitted]);
-
-  const handleCloseTimeOutModal = () => {
-    setShowTimeOutModal(false);
-    navigate("/member"); // Redirect to MemberPage after closing time-out modal
-  };
-
-  const getCompletionPercentage = () => {
-    const answeredQuestions = Object.keys(answers).length;
-    return (answeredQuestions / mockQuestions.length) * 100;
   };
 
   return (
@@ -116,7 +97,7 @@ const ExamPage = () => {
             </div>
           ))}
           <div className="progress-bar">
-            <div style={{ width: `${getCompletionPercentage()}%` }}></div>
+            <div style={{ width: `${(Object.keys(answers).length / mockQuestions.length) * 100}%` }}></div>
           </div>
           <button className="submit-btn" onClick={handleSubmit}>
             Submit
@@ -124,38 +105,32 @@ const ExamPage = () => {
         </div>
       ) : (
         <div className="result">
-          <h2>Your Score: {Object.keys(answers).length} / {mockQuestions.length}</h2>
+          <h2>Your Score: {localStorage.getItem('examScore')} / {mockQuestions.length}</h2>
         </div>
       )}
 
-      {/* Success Modal (for manual submit or time-out) */}
+      {/* Success Modal */}
       {showSuccessModal && (
         <div className="modal">
           <div className="modal-content">
             <h3>Congratulations! You have completed the exam.</h3>
-            {timeLeft === 0 && <p>Time's up! Your exam has been automatically submitted.</p>}
+            <h4>Your Score: {localStorage.getItem('examScore')} / {mockQuestions.length}</h4>
+            <h5>Incorrect Questions:</h5>
+            <ul>
+              {JSON.parse(localStorage.getItem('incorrectQuestions') || '[]').map((question, index) => (
+                <li key={index}>
+                  <p><strong>Question:</strong> {question.question}</p>
+                  <p><strong>Your Answer:</strong> {answers[question.id]}</p>
+                  <p><strong>Correct Answer:</strong> {question.answer}</p>
+                </li>
+              ))}
+            </ul>
             <button onClick={handleCloseSuccessModal}>Go Back</button>
           </div>
         </div>
       )}
-
-
-      {/* Time-Out Modal (shows when time is up) */}
-      {
-        showTimeOutModal && (
-          <div className="modal">
-            <div className="modal-content">
-              <h3>Time's up!</h3>
-              <p>Your exam has been automatically submitted due to time expiration.</p>
-              <button onClick={handleCloseTimeOutModal}>Go Back</button>
-            </div>
-          </div>
-        )
-      }
-    </div >
-    
+    </div>
   );
 };
-
 
 export default ExamPage;

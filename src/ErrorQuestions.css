@@ -1,0 +1,188 @@
+/* 固定顯示成績卡 */
+.score-card {
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
+  transition: box-shadow 0.3s ease;
+}
+
+.score-card:hover {
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* 鼠標懸停時增加陰影 */
+}
+
+.score-card h2 {
+  font-size: 1.5rem;
+  color: #4caf50; /* 綠色 */
+  margin-bottom: 10px;
+}
+
+.score-card p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* 可滾動的錯誤題目區域 */
+.questions-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 500px;  /* 設置最大高度 */
+  overflow-y: auto;   /* 啟用垂直滾動條 */
+  border: 1px solid #ddd; /* 邊緣線 */
+  border-radius: 15px; /* 圓角邊框 */
+  background: linear-gradient(145deg, #f0f0f0, #ffffff); /* 漸變背景 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 陰影效果 */
+}
+
+.question-row {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.question-row:hover {
+  transform: translateY(-5px); /* 鼠標懸停時上升 */
+}
+
+.question-title {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #333;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px ; /* 基本內邊距 */
+  position: relative;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, padding-left 0.3s ease;
+}
+
+.option:hover {
+
+  padding-left: 15px; /* 滑動感覺 */
+}
+
+.circle {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 2px solid #bbb;
+}
+
+.circle-gray {
+  background-color: #ccc; /* 灰色表示已選 */
+}
+
+.option-text {
+  font-size: 1rem;
+  color: #555;
+  padding-left: 10px;
+  flex-grow: 1;
+  border-radius: 5px;
+  padding: 5px;
+  border: 2px solid transparent;
+  word-wrap: break-word;
+  white-space: normal;
+  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+
+.option-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  
+}
+
+/* 背景顏色設定 */
+.incorrect {
+  background-color: #ffebee;  /* 淺紅色背景 */
+  border-radius: 10px;
+  margin-bottom: 10px;
+  
+}
+
+.correct {
+  background-color: #e8f5e9; /* 淺綠色背景 */
+  border-radius: 10px;
+  margin-bottom: 10px;
+  
+}
+
+/* 打勾和打叉的樣式 */
+.icon {
+  position: absolute;
+  right: 10px;
+  font-size: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #333;
+}
+
+.correct-icon {
+  color: green; /* 綠色打勾 */
+}
+
+.incorrect-icon {
+  color: red; /* 紅色打叉 */
+}
+
+/* 正確答案的卡片 */
+.correct-answer-card {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 15px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.correct-answer-card h4 {
+  font-size: 1rem;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.correct-answer-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.correct-option {
+  font-size: 1rem;
+  color: #333;
+  padding: 5px 10px;
+  background-color: #e8f5e9;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  word-wrap: break-word;
+  max-width: 100%; /* 保證最大寬度 */
+}
