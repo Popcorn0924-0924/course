@@ -1,0 +1,81 @@
+1. ExaamInfo
+這是整個考試的主要資料結構，描述了一個考試的基本信息。
+
+ts
+複製程式碼
+type ExamInfo = {
+  examId: ExamId;                // 考試的唯一識別符
+  name: ExamName;                // 考試名稱
+  timeLimit: Time;               // 考試時間限制
+  questionInfos: QuestionInfo[]; // 該考試包含的問題列表
+}
+examId：每個考試的唯一標識符，通常是數字或字串。
+name：考試的名稱。
+timeLimit：這是該考試的時間限制，可以是分鐘數等。
+questionInfos：這是包含考試所有問題的列表，每個問題都會有一個 QuestionInfo 物件，這些問題描述了考試內容。
+2. QuestionInfo
+這是每一個問題的結構，描述了考試中的具體問題。
+
+ts
+複製程式碼
+type QuestionInfo = {
+  questionId: QuestionId;       // 問題的唯一識別符
+  questionType: QuestionType;   // 題目類型，可能是選擇題、填空題等
+  question: ExamQuestion;       // 題目內容
+  questionOptions: QuestionOption[]; // 顯示的選項（如果是選擇題）
+  correctAnswer: Answer;        // 正確答案
+  score: Score;                 // 該問題的分數
+}
+questionId：每個問題的唯一標識符。
+questionType：這表示問題的類型，例如選擇題、填空題、簡答題等。
+question：題目的具體內容，可能是文字描述或者圖像。
+questionOptions：如果問題是選擇題，則這是可選擇的答案列表。
+correctAnswer：該問題的正確答案，這可能是單個答案或多個答案，取決於問題的類型。
+score：該題目的分數。
+3. QuestionWithAnswer
+這個類型用來描述學生對每個問題的回答。
+
+ts
+複製程式碼
+type QuestionWithAnswer = {
+  questionId: QuestionId;  // 該問題的唯一標識符
+  submitAnswer: Answer;    // 學生提交的答案
+}
+questionId：這個問題的唯一標識符，用來對應到 QuestionInfo。
+submitAnswer：學生提供的答案，這應該是學生選擇或填寫的內容。
+4. MemberWithExamRecord
+這個類型描述了某個學生在某個考試中的答題記錄。
+
+ts
+複製程式碼
+type MemberWithExamRecord = {
+  examID: ExamID;                     // 該學生參加的考試ID
+  memberID: MemberID;                 // 學生的唯一識別符
+  questionWithAnswers: QuestionWithAnswer[]; // 學生的每題答案列表
+  score: Score;                       // 該學生的總分
+}
+examID：這個學生參加的考試的唯一標識符，對應於 ExaamInfo 中的 examId。
+memberID：學生的唯一識別符，用來區分不同的學生。
+questionWithAnswers：這是該學生對每個問題的答案，包含每個問題的 questionId 和學生提供的 submitAnswer。
+score：該學生的總得分，通常是學生答對的問題所加的分數。
+領域模型的整體結構
+考試（ExaamInfo）：
+
+學生參加的每個考試有唯一的 ID、名稱、時間限制和問題列表。這是整個模型的核心，因為它定義了考試的基本結構。
+問題（QuestionInfo）：
+
+每個考試包含多個問題，每個問題有自己的 ID、類型、問題內容、選項、正確答案和分數。
+學生的回答（QuestionWithAnswer）：
+
+學生對每個問題提供答案，並且這些答案會與問題的 questionId 配對，以便在後端檢查每個問題的回答情況。
+學生的考試紀錄（MemberWithExamRecord）：
+
+學生的答題紀錄，記錄了他參加的考試、每題答案和最終的分數。
+為什麼這些資料結構是有意義的？
+這些資料結構反映了你的應用程式的核心業務邏輯。每個部分都是應用程式的一個小塊，它們之間是有關聯的：
+
+ExaamInfo 提供了考試的框架和結構。
+QuestionInfo 描述了考試內容。
+QuestionWithAnswer 表示學生如何與這些問題互動。
+MemberWithExamRecord 儲存了學生的答題結果和最終分數。
+在實際開發中，你會基於這些領域模型來設計 API、資料庫結構，並處理業務邏輯（例如計算分數、評估答案是否正確等）。
