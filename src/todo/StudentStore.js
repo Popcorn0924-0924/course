@@ -3,9 +3,11 @@ import { createContext } from "react";
 import { makeAutoObservable } from "mobx";
 
 class StudentStore {
-  todoExams = [
+  exams = [
     { id: 1, name: "Java Exam", status: "pending" },
     { id: 2, name: "Math Exam", status: "pending" },
+    { id: 3, name: "English Exam", status: "completed" },
+
   ];
   completedExams = [
     { id: 3, name: "English Exam", status: "completed" },
@@ -18,23 +20,23 @@ class StudentStore {
 
   fetchTodoExams() {
     console.log("Fetching Todo Exams...");
-    return this.todoExams;
+    return this.exams.filter(exam=>exam.status === "pending");
   }
 
   fetchCompletedExams() {
     console.log("Fetching Completed Exams...");
-    return this.completedExams;
+    return this.exams.filter(exam=>exam.status === "completed");
   }
 
   updateExamStatus(examId, status) {
     console.log(`Updating exam ${examId} status to ${status}...`);
-    const exam = this.todoExams.find((exam) => exam.id === examId);
+    const exam = this.exams.find((exam) => exam.id === examId);
     if (exam) {
       exam.status = status;
-      this.completedExams.push(exam);
-      this.todoExams = this.todoExams.filter((exam) => exam.id !== examId);
-    }
-    console.log("Updated Data:", this.todoExams, this.completedExams);
+      this.exams = this.exams.map((e) => 
+        e.id === examId ? { ...e, status: status } : e
+      );    }
+    console.log("Updated Data:", this.exams, this.completedExams);
   }
 
   setCurrentExam(exam) {

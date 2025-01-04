@@ -3,10 +3,11 @@ import { createContext } from "react";
 import { makeAutoObservable } from "mobx";
 
 class StudentStore {
-  // 假資料，初始化為空陣列
-  todoExams = [
+  exams = [
     { id: 1, name: "Java Exam", status: "pending" },
     { id: 2, name: "Math Exam", status: "pending" },
+    { id: 3, name: "English Exam", status: "completed" },
+
   ];
   completedExams = [
     { id: 3, name: "English Exam", status: "completed" },
@@ -17,21 +18,19 @@ class StudentStore {
     makeAutoObservable(this);
   }
 
-  // 確保返回資料時是有效的
   fetchTodoExams() {
     console.log("Fetching Todo Exams...");
-    return this.todoExams;
+    return this.exams.filter(exam=>exam.status === "pending");
   }
 
   fetchCompletedExams() {
     console.log("Fetching Completed Exams...");
-    return this.completedExams;
+    return this.exams.filter(exam=>exam.status === "completed");
   }
 
-  // 更新考試狀態
   updateExamStatus(examId, status) {
     console.log(`Updating exam ${examId} status to ${status}...`);
-    const exam = this.todoExams.find((exam) => exam.id === examId);
+    const exam = this.exams.find((exam) => exam.id === examId);
     if (exam) {
       exam.status = status;
       this.completedExams.push(exam);
@@ -46,5 +45,6 @@ class StudentStore {
   }
 }
 
+// 這裡導出 studentStore 實例
 export const studentStore = new StudentStore();
 export const StudentContext = createContext(studentStore); // MobX Store Context

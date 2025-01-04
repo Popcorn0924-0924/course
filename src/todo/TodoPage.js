@@ -1,7 +1,6 @@
-// todo/TodoPage.js
 import React, { useEffect, useContext, useState } from "react";
 import { observer } from "mobx-react";
-import { StudentContext } from "../0101/StudentStore";  // 引入 StudentContext
+import { StudentContext } from "../todo/StudentStore";  // 引入 StudentContext
 import { Link, useNavigate } from "react-router-dom";
 
 const TodoPage = observer(() => {
@@ -11,7 +10,7 @@ const TodoPage = observer(() => {
 
   useEffect(() => {
     if (!isDataFetched) {
-      const todoExams = studentStore.fetchTodoExams();
+      const todoExams = studentStore.fetchTodoExams();  // 使用 fetchTodoExams 獲取待處理的考試
       console.log("Todo Exams:", todoExams);
       setIsDataFetched(true); // 設置為已抓取資料
     } else {
@@ -27,10 +26,10 @@ const TodoPage = observer(() => {
   return (
     <div>
       <h1>Todo Exams</h1>
-      {studentStore.todoExams.length === 0 ? (
+      {studentStore.fetchTodoExams().length === 0 ? (
         <div>No exams available.</div>
       ) : (
-        studentStore.todoExams.map((exam) => (
+        studentStore.fetchTodoExams().map((exam) => (
           <div key={exam.id}>
             <p>{exam.name}</p>
             <Link to={`/exam/${exam.id}`}>Start Exam</Link>

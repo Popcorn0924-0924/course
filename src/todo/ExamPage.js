@@ -1,8 +1,7 @@
-// todo/ExamPage.js
 import React, { useEffect, useContext, useState } from "react";
 import { observer } from "mobx-react";
 import { useParams, useNavigate } from "react-router-dom";
-import { StudentContext } from "../0101/StudentStore";
+import { StudentContext } from "../todo/StudentStore";
 
 const ExamPage = observer(() => {
   const { examId } = useParams();
@@ -11,7 +10,7 @@ const ExamPage = observer(() => {
   const [examAnswered, setExamAnswered] = useState(false);
 
   useEffect(() => {
-    const exam = studentStore.todoExams.find((exam) => exam.id === parseInt(examId));
+    const exam = studentStore.fetchTodoExams().find((exam) => exam.id === parseInt(examId));  // 使用 fetchTodoExams()
     studentStore.setCurrentExam(exam);
     console.log("Exam started:", exam);
   }, [examId, studentStore]);
