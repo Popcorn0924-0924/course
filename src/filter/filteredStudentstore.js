@@ -53,11 +53,5 @@ class FilteredStudentStore {
   }
 }
 
-const studentStore = new FilteredStudentStore();
-
-// 篩選條件：80 - 100
-studentStore.setFilter({ min: 80, max: 100 });
-// 篩選條件：50 - 100
-studentStore.setFilter({ min: 50, max: 100 });
-
-export default studentStore;
+export  const studentStore1 = new FilteredStudentStore();
+export const studentStore2 = new FilteredStudentStore();
