@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react-lite';
 import { studentStore2 } from './filteredStudentstore'; // 引入不同的 store
 
-let renderCount1 = 0; // 計算 Page1 渲染次數
 
 const Page2 = observer(() => {
   const [filter, setFilter] = useState({ min: 0, max: 100 });
-  studentStore2.score=[
+  studentStore2.students=[
     { name: 'David', score: 60 },
     { name: 'Eva', score: 90 },
     { name: 'Frank', score: 40 },
@@ -23,7 +22,6 @@ const Page2 = observer(() => {
     studentStore2.setFilter(filter);
   }, [filter]);
 
-  renderCount1 += 1; // 計算渲染次數
 
   return (
     <div>
